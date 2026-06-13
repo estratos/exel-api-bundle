@@ -22,7 +22,7 @@ Bundle Symfony para integración con la API de Exel del Norte.
 # Instalación
 
 ```bash
-composer require exeldelnorte/exel-api-bundle
+composer require estratos/exel-api-bundle
 ```
 
 ---
