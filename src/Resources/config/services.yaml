@@ -1,0 +1,54 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Exel\ApiBundle\:
+        resource: '../../*'
+        exclude:
+            - '../../{DependencyInjection,Entity,Tests,Resources,ExelApiBundle.php}'
+
+    # Client
+    Exel\ApiBundle\Client\ExelApiClient:
+        arguments:
+            $baseUrl: '%exel_api.base_url%'
+            $apiKey: '%exel_api.api_key%'
+            $maxRetries: '%exel_api.retry.max_retries%'
+            $retryDelayMs: '%exel_api.retry.delay_ms%'
+            $retryMultiplier: '%exel_api.retry.multiplier%'
+            $logEnabled: '%exel_api.logging.enabled%'
+            $logRequestBody: '%exel_api.logging.log_request_body%'
+            $logResponseBody: '%exel_api.logging.log_response_body%'
+            $connectionTimeout: '%exel_api.timeout.connection%'
+            $responseTimeout: '%exel_api.timeout.response%'
+
+    # Services
+    Exel\ApiBundle\Service\ProductService:
+        arguments:
+            $client: '@Exel\ApiBundle\Client\ExelApiClient'
+
+    Exel\ApiBundle\Service\CatalogService:
+        arguments:
+            $client: '@Exel\ApiBundle\Client\ExelApiClient'
+
+    Exel\ApiBundle\Service\OrderService:
+        arguments:
+            $client: '@Exel\ApiBundle\Client\ExelApiClient'
+
+    Exel\ApiBundle\Service\ShippingService:
+        arguments:
+            $client: '@Exel\ApiBundle\Client\ExelApiClient'
+
+    # Facade
+    exel_api.client_facade:
+        class: Exel\ApiBundle\ExelApi
+        arguments:
+            $productService: '@Exel\ApiBundle\Service\ProductService'
+            $catalogService: '@Exel\ApiBundle\Service\CatalogService'
+            $orderService: '@Exel\ApiBundle\Service\OrderService'
+            $shippingService: '@Exel\ApiBundle\Service\ShippingService'
+
+    Exel\ApiBundle\ExelApi:
+        alias: 'exel_api.client_facade'
+        public: true
