@@ -1,0 +1,17 @@
+{
+  "name": "estratos/exel-api-bundle",
+  "description": "Symfony Bundle para integración con API Exel del Norte",
+  "type": "symfony-bundle",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "Exel\\ApiBundle\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.3",
+    "symfony/http-client": "^7.4",
+    "symfony/config": "^7.4",
+    "symfony/dependency-injection": "^7.4"
+  }
+}
