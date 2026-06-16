@@ -39,9 +39,26 @@ final class ExelApiClient
         return $this->request('GET', $endpoint, ['query' => $query]);
     }
 
+    /**
+     * POST request with JSON body
+     */
     public function post(string $endpoint, array $data = []): array
     {
         return $this->request('POST', $endpoint, ['json' => $data]);
+    }
+
+    /**
+     * POST request with JSON body and query parameters
+     */
+    public function postWithQuery(string $endpoint, array $data = [], array $query = []): array
+    {
+        $options = ['json' => $data];
+        
+        if (!empty($query)) {
+            $options['query'] = $query;
+        }
+        
+        return $this->request('POST', $endpoint, $options);
     }
 
     private function request(string $method, string $endpoint, array $options = []): array

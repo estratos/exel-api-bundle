@@ -23,22 +23,41 @@ services:
             $connectionTimeout: '%exel_api.timeout.connection%'
             $responseTimeout: '%exel_api.timeout.response%'
 
+    # Mappers
+    Exel\ApiBundle\Mapper\ProductMapper:
+        public: true
+
+    Exel\ApiBundle\Mapper\CatalogMapper:
+        public: true
+
+    Exel\ApiBundle\Mapper\OrderMapper:
+        public: true
+
     # Services
     Exel\ApiBundle\Service\ProductService:
         arguments:
             $client: '@Exel\ApiBundle\Client\ExelApiClient'
+            $mapper: '@Exel\ApiBundle\Mapper\ProductMapper'
 
     Exel\ApiBundle\Service\CatalogService:
         arguments:
             $client: '@Exel\ApiBundle\Client\ExelApiClient'
+            $mapper: '@Exel\ApiBundle\Mapper\CatalogMapper'
 
     Exel\ApiBundle\Service\OrderService:
         arguments:
             $client: '@Exel\ApiBundle\Client\ExelApiClient'
+            $mapper: '@Exel\ApiBundle\Mapper\OrderMapper'
 
     Exel\ApiBundle\Service\ShippingService:
         arguments:
             $client: '@Exel\ApiBundle\Client\ExelApiClient'
+
+    # Cache Manager (optional, if cache is enabled)
+    Exel\ApiBundle\Cache\CacheManager:
+        arguments:
+            $cache: '@cache.app'
+            $ttl: '%exel_api.cache.ttl%'
 
     # Facade
     exel_api.client_facade:

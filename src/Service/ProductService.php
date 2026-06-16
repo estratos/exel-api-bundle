@@ -56,14 +56,14 @@ final class ProductService
     public function inventory(array $skus, bool $sinStock = false): array
     {
         $query = $sinStock ? ['sin_stock' => 'true'] : [];
-        $response = $this->client->post('/productos_almacenes', ['skus' => $skus], $query);
+        $response = $this->client->postWithQuery('/productos_almacenes', ['skus' => $skus], $query);
         return $this->mapper->mapInventoryArray($response);
     }
 
     public function inventoryBySku(string $sku, bool $sinStock = false): ?ProductInventory
     {
         $query = $sinStock ? ['sin_stock' => 'true'] : [];
-        $response = $this->client->post('/productos_almacenes', ['skus' => [$sku]], $query);
+        $response = $this->client->postWithQuery('/productos_almacenes', ['skus' => [$sku]], $query);
         return $this->mapper->mapInventorySingle($response);
     }
 
